@@ -11,6 +11,7 @@ namespace OOP_FINAL_PROJECT
         public string Type { get; set; }
 
         public List<List<int>> NewShapeCoordinates = new List<List<int>>();
+        public List<int> NewShapeTypes = new List<int>();
         public bool GameStartedFeedback = false;
         public bool HomeSpotSetRequestFeedback = false;
         public bool TargetSpotSetRequestFeedback = false;
@@ -19,5 +20,6 @@ namespace OOP_FINAL_PROJECT
         public string ErrorMessage = null;
         public List<int> ClearSpotsData = null;
         public string GameEndInfo = null;
+
     }
 }

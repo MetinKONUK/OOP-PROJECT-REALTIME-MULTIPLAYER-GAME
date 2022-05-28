@@ -10,6 +10,7 @@ class Board{
         this.target = null;
         this.path = [];
         this.turn = null;
+
     }//end-constructor
 
     SetBoard = () => {
@@ -30,11 +31,20 @@ class Board{
     ShowBoard = () => {
         for(let i = 0; i < this.rows; ++i){
             for(let j = 0; j < this.cols; ++j){
-                if(this.board[i][j].isFilled == true){
-                    process.stdout.write("[1]");
-                } else {
+                if(this.board[i][j].isFilled == false){
+                    process.stdout.write("[ ]");
+                    continue;
+                }
+                if(this.board[i][j].ShapeType == 0){
                     process.stdout.write("[0]");
                 }
+                if(this.board[i][j].ShapeType == 1){
+                    process.stdout.write("[1]");
+                }
+                if(this.board[i][j].ShapeType == 2){
+                    process.stdout.write("[2]");
+                }
+                
             }
             process.stdout.write("\n");
         }
@@ -125,14 +135,20 @@ class Board{
         }
     }//end-func
 
+    SpecifyShape = () => {
+        let shapeType = Math.floor(Math.random() * 3);
+        return shapeType;
+    }
+
     SetCellShape = () => {
         let coordinates = this.SpecifyShapeLocation();
         let n = coordinates[0];
         let m = coordinates[1];
         this.board[n][m].isFilled = true;
-        this.board[n][m].ShapeType = 0;
+        this.board[n][m].ShapeType = this.SpecifyShape();
         return coordinates;
     }//end-func
+
 
     PlaceShapes = () => {
         let coordinates = [];
@@ -213,22 +229,25 @@ class Board{
     SendGameEndInfo = (dtc) => {
         console.log(this.CalculateEmptySpotCount());
         dtc.Type = "game-end-info";
+        console.log(`Player1 Score: ${this.player1.Score}`);
+        console.log(`Player2 Score: ${this.player2.Score}`);
+
         if(this.player1.Score > this.player2.Score){
-            dtc.GameEndInfo = "YOU WON!";
+            dtc.GameEndInfo = `${this.player1.Username} WON!`;
             var data = JSON.stringify(dtc);
             this.player1.send(data);
 
-            dtc.GameEndInfo = "YOU LOST";
+            dtc.GameEndInfo = `${this.player2.Username} LOST`;
             var data = JSON.stringify(dtc);
             this.player2.send(data);
         } 
         else if(this.player2.Score > this.player1.Score)
         {
-            dtc.GameEndInfo = "YOU WON!";
+            dtc.GameEndInfo = `${this.player2.Username} WON!`;
             var data = JSON.stringify(dtc);
             this.player2.send(data);
 
-            dtc.GameEndInfo = "YOU LOST";
+            dtc.GameEndInfo = `${this.player1.Username} LOST`;
             var data = JSON.stringify(dtc);
             this.player1.send(data);
         } 
@@ -375,6 +394,7 @@ class Board{
         this.MoveShape(this.home, this.target);
         return true;
     }//end-func
+
 
 }////end-class
 export default Board;
