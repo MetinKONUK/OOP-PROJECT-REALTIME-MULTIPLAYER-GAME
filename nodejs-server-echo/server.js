@@ -22,6 +22,7 @@ var DataFromClient = {
 var DataToClient = {
   Type: "",
   NewShapeCoordinates : null,
+  NewShapeTypes : null,
   GameStartedFeedback : false,
   HomeSpotSetRequestFeedback : false,
   TargetSpotSetRequestFeedback : false,
@@ -90,8 +91,13 @@ const HandleMessage = (ws, data) => {
         board.turn = board.player1;
         board.SetBoard();
         let coordinates = board.PlaceShapes(); //PLACE SHAPES FOR SERVER BOARD
-        matches.push(board);
+        let ShapeTypes = [];
+        for(let i = 0; i < 3; ++i){
+          ShapeTypes.push(board.board[coordinates[i][0]][coordinates[i][1]].ShapeType);
+        }
+        console.log("UP: ", ShapeTypes);
 
+        matches.push(board);
         //SEND GAME STARTED FEEDBACK TO CLIENTS
         DataToClient.Type = "game-started-feedback";
         DataToClient.GameStartedFeedback = true;
@@ -100,7 +106,9 @@ const HandleMessage = (ws, data) => {
         //SEND COORDINATES OF THE PLACED SHAPES TO CLIENTS
         DataToClient.Type = "new-shape-coordinates";
         DataToClient.NewShapeCoordinates = coordinates;
+        DataToClient.NewShapeTypes = ShapeTypes;
         SendDataToClients(DataToClient, [ws, Opponent]);
+        
 
 
         ListClients();
@@ -194,8 +202,14 @@ const HandleMessage = (ws, data) => {
         if(username == board.turn.Username){
           console.log(`${username} asked to place new shapes`);
           let coordinates = board.PlaceShapes(); //PLACE SHAPES FOR SERVER BOARD
+          let ShapeTypes = [];
+          for(let i = 0; i < 3; ++i){
+            ShapeTypes.push(board.board[coordinates[i][0]][coordinates[i][1]].ShapeType);
+          }
+          console.log(ShapeTypes);
           DataToClient.Type = "new-shape-coordinates";
           DataToClient.NewShapeCoordinates = coordinates;
+          DataToClient.NewShapeTypes = ShapeTypes;
           SendDataToClients(DataToClient, [board.player1, board.player2]);
           if(board.turn == board.player1){
             board.turn = board.player2;

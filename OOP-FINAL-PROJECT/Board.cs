@@ -65,7 +65,8 @@ namespace OOP_FINAL_PROJECT
             {
                 Console.WriteLine("NEW SHAPE COORDINATES ARRIVED!!");
                 List<List<int>> coordinates = data.NewShapeCoordinates;
-                PlaceShapes(coordinates);
+                List<int> shapeTypes = data.NewShapeTypes;
+                PlaceShapes(coordinates, shapeTypes);
             }
             if(data.Type == "home-spot-set-request-feedback")
             {
@@ -203,19 +204,19 @@ namespace OOP_FINAL_PROJECT
 
         }
 
-        public static void SetCellShape(int n, int m)
+        public static void SetCellShape(int n, int m, int type)
         {
-            var fileName = "../../shapes/square.png";
+            var fileName = $"../../shapes/{type}.png";
             board[n][m].Btn.BackgroundImage = Image.FromFile(@fileName);
             board[n][m].Btn.BackgroundImageLayout = ImageLayout.Stretch;
             board[n][m].IsFilled = true;
         }
 
-        public static void PlaceShapes(List<List<int>> coordinates)
+        public static void PlaceShapes(List<List<int>> coordinates, List<int> types)
         {
-            foreach(var coord in coordinates)
+            for(var i = 0; i < 3; ++i)
             {
-                SetCellShape(coord[0], coord[1]);
+                SetCellShape(coordinates[i][0], coordinates[i][1], types[i]);
             }
         }
 
