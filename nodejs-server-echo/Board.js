@@ -10,7 +10,6 @@ class Board{
         this.target = null;
         this.path = [];
         this.turn = null;
-
     }//end-constructor
 
     SetBoard = () => {
@@ -394,7 +393,6 @@ class Board{
         this.MoveShape(this.home, this.target);
         return true;
     }//end-func
-
 
 }////end-class
 export default Board;

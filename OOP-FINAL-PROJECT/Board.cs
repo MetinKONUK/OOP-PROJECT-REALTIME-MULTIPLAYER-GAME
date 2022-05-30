@@ -13,7 +13,7 @@ namespace OOP_FINAL_PROJECT
     {
         public static string local = "ws://127.0.0.1:5000";
         public static string glitch = "ws://oop-websocket-server.glitch.me";
-        readonly static WebSocket ws = new WebSocket(local);
+        readonly static WebSocket ws = new WebSocket(glitch);
 
         public static List<List<Spot>> board = new List<List<Spot>>();
         public static bool gameStarted = false;

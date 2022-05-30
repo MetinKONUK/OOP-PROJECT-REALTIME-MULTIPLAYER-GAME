@@ -21,7 +21,7 @@ namespace OOP_FINAL_PROJECT
         {
             var Username = UsernameTextBox.Text;
             var Password = PasswordTextBox.Text;
-            if(Username == "metin" && Password == "metin" || Username == "beste" && Password == "beste" || Username == "hasan" && Password == "hasan")
+            if(Username == Password)
             {
                 var user = new User
                 {
